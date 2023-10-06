@@ -25,4 +25,5 @@ urlpatterns = [
     path('', home,name="home"),
     path('cart/', cart,name="cart"),
     path('buynow/', buynow,name="buynow"),
+    path('successful/', successful,name="successful"),
 ]
