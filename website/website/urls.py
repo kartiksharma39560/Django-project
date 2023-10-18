@@ -19,10 +19,13 @@ from django.urls import path
 from home.views import *
 from cart.views import *
 from buynow.views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home,name="home"),
-    path('cart/', cart,name="cart"),
-    path('buynow/', buynow,name="buynow"),
-]
+    path('', home, name="home"),
+    path('cart/', cart, name="cart"),
+    path('buynow/', buynow, name="buynow"),
+    path('successful/', successful, name="successful"),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
