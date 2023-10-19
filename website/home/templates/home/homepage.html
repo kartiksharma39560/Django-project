@@ -1,13 +1,130 @@
+{% extends 'home/base.html' %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h1>
+
+  
+   <style>
+
+ 
+   </style>
+       
+ 
+  </head>
+  {% block body %}
+   
+
+    <div
+      class="container d-flex justify-content-center align-items-center flex-wrap"
+    >
+      <div class="card mt-5 mx-5" style="width: 18rem">
+        <a href="{% url 'productview' myid=1 %} " class="text-decoration-none text-black">
+        <img
+          class="card-img-top"
+          src="/media/{{product.0.image}}"
+          alt="Card image cap"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{product.0.product_name}}</h5>
+          <p class="card-text">{{product.0.desc}}</p>
+        </a>
+          <button id="pr{{product.0.id}}" class="btn btn-primary cart">Add to Cart</button>
+        </div>
+      </div>
+   
+    <!-- <button id="empty-cart">Empty Cart</button>   -->
+      <!-- <div class="card mt-5 mx-5" style="width: 18rem;">
+        <img class="card-img-top" src="/media/{{product.1.image}}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">{{product.1.product_name}}</h5>
+          <p class="card-text">{{product.1.desc}}</p>
+          <a href="#" class="btn btn-primary">Add to Cart</a>
+        </div>
+      </div> -->
+
+      {% for i in product|slice:"1:"%}
+      <div class="col-xs-3 col-sm-3 col-md-3 mt-5 mx-4">
+        <div class="card" style="width: 18rem">
+          <a href="{% url 'productview' myid=i.id %} " class="text-decoration-none text-black">
+          <img src="/media/{{i.image}}"  class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title" id="namepr{{i.id}}">{{i.product_name}}</h5>
+            <p class="card-text" id="descpr{{i.id}}">{{i.desc}}</p>
+          </a>
+          <span id="divpr{{i.id}}" class="divpr">
+            <button id="pr{{i.id}}" data-product="pr{{i.id}}" data-action="add"  class="btn btn-primary cart update-cart">Add to Cart</button>
+          </span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+ 
+    <script>
+    console.log("working");
+      var cart = {};
+      // find the cart in local storage
+      if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+        updateCartDisplay();
+      }
+
+      $(".cart").click(function () {
+         
+        var idstr = this.id.toString();
+        console.log(idstr);
+
+        if (cart[idstr] !== undefined) {
+          cart[idstr] = cart[idstr] + 1;
         
-    </h1>
-</body>
-</html>
+        } else {
+          cart[idstr] = 1;
+        }
+
+        console.log(cart);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartDisplay();
+      });
+
+      function updateCartDisplay() {
+        var cartCount = Object.keys(cart).length;
+        document.getElementById("cart").innerHTML = cartCount;
+      }
+      $("#empty-cart").click(function () {
+        cart = {}; // Clear the cart object
+        localStorage.removeItem("cart"); // Remove the cart from localStorage
+        updateCartDisplay(); // Update the cart display
+      });
+      pcart(cart);
+
+function pcart(cart) {
+  console.log("inside pcart");
+  var productNames = [];
+
+  for (var item in cart) {
+    var productCard = document.getElementById("name"  + item);
+    if (productCard) {
+      productNames.push(productCard.innerHTML);
+      localStorage.setItem("productNames", JSON.stringify(productNames));
+    }
+  }
+  localStorage.setItem("productNames", JSON.stringify(productNames));
+  console.log(productNames);}
+
+  var updateBtns=document.getElementsByClassName('update-cart')
+      for(var i =0 ; i<updateBtns.length; i++){
+        updateBtns[i].addEventListener('click',function(){
+          var productId=this.dataset.product
+          var action=this.dataset.action
+          console.log('productId:',productId,'action:',action)
+        })
+      }
+
+    </script>
+      
+      {% endblock %}
+</html> 
