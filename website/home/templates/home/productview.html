@@ -71,7 +71,6 @@
       </div>
     </nav>
 
-
     <!-- Product section-->
     <section class="py-5">
       <div class="container px-4 px-lg-5 my-5">
@@ -83,23 +82,26 @@
               alt="..."
             />
           </div>
-         
+
           <div class="col-md-6">
-             
-              {% csrf_token %}
+            {% csrf_token %}
             <div class="small mb-1">SKU: BST-498</div>
-            <h1 class="display-5 fw-bolder" name="addCart" value="clicked">{{product.product_name}}</h1>
-            
+            <h1 class="display-5 fw-bolder" name="addCart" value="clicked">
+              {{product.product_name}}
+            </h1>
+
             <div class="fs-5 mb-5">
-              <span class="text-decoration-line-through">$45.00</span>
-              <span>$40.00</span>
+              <span class="text-decoration-line-through strikethrough-price"
+                >₹
+              </span>
+              <span class="original-price" id="ogprice"
+                >{{product.price}}.00</span
+              >
             </div>
-            <p class="lead">
-              {{product.desc}}
-            </p>
+            <p class="lead">{{product.desc}}</p>
             <div class="d-flex">
-             <span class="mt-1 quantity "> Quantity</span> 
-             <input
+              <span class="mt-1 quantity"> Quantity</span>
+              <input
                 class="form-control text-center mx-3"
                 id="inputQuantity"
                 type="number"
@@ -107,17 +109,19 @@
                 name="quantity"
                 style="max-width: 4rem"
               />
-              <button  data-product="{{product.id}}" data-action="add"   class="btn btn-outline-dark flex-shrink-0 update-cart "  type="submit">
+              <button
+                data-product="{{product.id}}"
+                data-action="add"
+                class="btn btn-outline-dark flex-shrink-0 update-cart"
+                type="submit"
+              >
                 <i class="bi-cart-fill me-1"></i>
                 Add to cart
               </button>
             </div>
-         
           </div>
         </div>
-     
       </div>
-  
     </section>
     <!-- Related items section-->
     <section class="py-5 bg-light">
@@ -126,17 +130,12 @@
         <div
           class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center"
         >
-        
           <div class="col mb-5">
             <div class="card h-100">
               <!-- Product image-->
-             
-              <img
-                class="card-img-top"
-                src="/media/{{i.image}}"
-                alt="..."
-              />
-              
+
+              <img class="card-img-top" src="/media/{{i.image}}" alt="..." />
+
               <!-- Product details-->
               <div class="card-body p-4">
                 <div class="text-center">
@@ -156,7 +155,7 @@
               </div>
             </div>
           </div>
-       
+
           <div class="col mb-5">
             <div class="card h-100">
               <!-- Sale badge-->
@@ -292,15 +291,33 @@
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
-    <script  >
-      var updateBtns=document.getElementsByClassName('update-cart')
-      for(var i =0 ; i<updateBtns.length; i++){
-        updateBtns[i].addEventListener('click',function(){
-          var productId=this.dataset.product
-          var action=this.dataset.action
-          console.log('productId:',productId,'action:',action)
-        })
+    <script>
+      var updateBtns = document.getElementsByClassName("update-cart");
+      for (var i = 0; i < updateBtns.length; i++) {
+        updateBtns[i].addEventListener("click", function () {
+          var productId = this.dataset.product;
+          var action = this.dataset.action;
+          console.log("productId:", productId, "action:", action);
+        });
       }
+      function priceCalculator() {
+    // Get the original price as a string
+    var originalPriceString = document.getElementById("ogprice").textContent;
+    console.log(originalPriceString);  
+
+     
+    var originalPrice = parseFloat(originalPriceString.replace(/[^0-9.]/g, ''));  
+    var strikethroughPrice = originalPrice * 1.2;
+
+    // Update the HTML elements with the calculated prices
+    document.querySelector(".original-price").textContent =
+        "₹" + originalPriceString; // Keep the original price as string
+    document.querySelector(".strikethrough-price").textContent =
+        "₹" + strikethroughPrice.toFixed(2);
+}
+
+// Call the function to calculate and update prices
+priceCalculator();
 
 
     </script>

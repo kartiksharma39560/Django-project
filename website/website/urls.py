@@ -30,7 +30,11 @@ urlpatterns = [
     path('buynow/', buynow, name="buynow"),
     path('successful/', successful, name="successful"),
     path('productcard/', productcard, name="productcard"),
-    path('add_to_cart/', add_to_cart, name="add_to_cart"),
+    path('updateItem/', updateItem, name="updateItem"),
     path('productview/<int:myid>', productview, name="productview"),
+     path('/signup', signupage,name="signup"),
+    path('login/',login,name="login"),
+    path('logout/',Logoutpage,name="logout")
 #    path('add_to_cart/', home.add_to_cart, name='add_to_cart'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+ 
