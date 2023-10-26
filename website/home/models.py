@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Product(models.Model):
-    product_id=models.AutoField
+    product_id=models.AutoField 
     product_name=models.CharField(max_length=50)
     category=models.CharField(max_length=50,default="")
     subcategory=models.CharField(max_length=50,default="")
@@ -14,3 +14,14 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+    
+class Signup(models.Model):
+    uname=models.CharField(max_length=255)
+    email= models.EmailField(max_length = 254)
+    p1 = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.uname
+
+class Content(models.Model):
+     video=models.ImageField(upload_to="shop/images",default="")
