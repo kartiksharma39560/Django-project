@@ -11,3 +11,7 @@ class Payment_info(models.Model):
 
     def __str__(self):
         return self.card_no
+    
+
+
+

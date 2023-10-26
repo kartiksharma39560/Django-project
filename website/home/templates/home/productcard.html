@@ -1,0 +1,257 @@
+ {% load static %}
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+  <link
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+  rel="stylesheet"
+/>   <link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+rel="stylesheet"
+integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+crossorigin="anonymous"
+/>
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+crossorigin="anonymous"
+></script>
+<link href="{% static 'style.css' %}" rel="stylesheet" />
+  <style>
+    .card {
+      
+ width: 305px;
+ height: 560px;
+ padding: .8em;
+ background: #f5f5f5;
+ position: relative;
+ overflow: visible;
+ box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+ margin-bottom: 60px;
+ margin-top: 30px;
+}
+
+.card-img {
+ background-color: #ffcaa6;
+ height: 60%;
+ width: 100%;
+ border-radius: .5rem;
+ transition: .3s ease;
+}
+
+.card-info {
+ padding-top: 10%;
+}
+
+svg {
+ width: 20px;
+ height: 20px;
+}
+
+.card-footers {
+ width: 100%;
+ display: flex;
+ flex-direction: row;
+ justify-content: space-between;
+ align-items: center;
+ padding-top: 10px;
+ border-top: 1px solid #ddd;
+}
+
+/*Text*/
+.text-titles {
+ font-weight: 500;
+ font-size: 1.4em;
+ line-height: 1.5;
+}
+
+.text-body {
+ font-size: 1.0rem;
+ padding-bottom: 10px;
+}
+
+/*Button*/
+.card-buttons {
+  border: 1px solid #252525;
+    display: flex;
+    padding: 0.3em;
+    cursor: pointer;
+    border-radius: 50px;
+    transition: .3s ease-in-out;
+    /* width: 36px; */
+}
+
+/*Hover*/
+.card-img:hover {
+ transform: translateY(-25%);
+ box-shadow: rgba(226, 196, 63, 0.25) 0px 13px 47px -5px, rgba(180, 71, 71, 0.3) 0px 8px 16px -8px;
+}
+
+.card-buttons:hover {
+ border: 1px solid #ffcaa6;
+ background-color: #ffcaa6;
+}
+.flex{
+  display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+a{
+  text-decoration: none;
+  color: black;
+}
+.buttons{
+  border-radius: 24px;
+}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar Starts -->
+  
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+  <a class="navbar-brand" href="#">My Awesome Cart</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li>
+    </ul>
+
+    <div id="cartContainer" class="d-flex justify-content-center align-items-center   ">
+      <button class="btn btn-outline-dark"   id="popcart" data-toggle="popover">
+        <i class="bi-cart-fill me-1"></i>
+        Cart
+        <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart">0</span>
+      </button>
+    </div>
+  </nav>
+  <!-- Navbar Ends -->
+
+  <!-- Product cards Starts  -->
+  
+  <div class="flex">
+  {% for i in product %}
+  <div class="card d-flex">
+    <a href="{% url 'productview' myid=i.id %}"  >
+    <img class="card-img" src="/media/{{i.image}}"> </img>
+    <div class="card-info">
+      <p class="text-titles" id="name{{i.id}}">{{i.product_name}}</p>
+      <p class="text-body">{{i.desc}}</p>
+    </div>
+    <div class=" card-footers">
+    <span class="text-titles">₹{{i.price}}</span></a>
+    <div class="card-buttons" >
+      <button id="pr{{i.id}}" class="cart buttons" ><i class="bi-cart-fill me-1  "></i></button>
+    </div>
+  </div></div>
+  {% endfor %}
+</div>
+<!-- Product cards ends  -->
+
+<script>
+ document.addEventListener("DOMContentLoaded", function(event) {
+    console.log("working");
+    var cart = {};
+    
+    // Find the cart in local storage
+    if (localStorage.getItem("cart")) {
+        cart = JSON.parse(localStorage.getItem("cart"));
+        updateCartDisplay();
+    }
+
+    // Add to cart button click event
+    $(".cart").click(function () {
+        var idstr = this.id.toString();
+        console.log(idstr);
+
+        if (cart[idstr] !== undefined) {
+            cart[idstr] = cart[idstr] + 1;
+        } else {
+            cart[idstr] = 1;
+        }
+
+        console.log(cart);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartDisplay();
+    });
+
+    function updateCartDisplay() {
+        var cartCount = Object.keys(cart).length;
+        document.getElementById("cart").innerHTML = cartCount;
+    }
+
+    $("#empty-cart").click(function () {
+        cart = {}; // Clear the cart object
+        localStorage.removeItem("cart"); // Remove the cart from localStorage
+        updateCartDisplay(); // Update the cart display
+    });
+
+    // Initialize popover
+$('[data-toggle="popover"]').popover({
+    html: true,
+    content: function () {
+        return cartContent();
+    }
+});
+
+// Handle the Clear Cart button click event
+$(document).on('click', '#clearCart', function() {
+    cart = {}; // Clear the cart object
+    localStorage.removeItem("cart"); // Remove the cart from localStorage
+    updateCartDisplay(); // Update the cart display
+    $('#popcart').popover('hide'); // Close the popover
+});
+
+// Function to generate cart content for the popover
+function cartContent() {
+    var popStr = "<h5>Cart for your items in my shopping cart</h5><button>Checkout</button><div class='mx-2 my-2'> ";
+    var i = 1;
+    for (var item in cart) {
+        var itemWithoutPrefix = item.substring(2); // Remove the "pr" prefix
+        popStr += `<b>${i}</b>. <b>${document.getElementById('name' + itemWithoutPrefix).textContent}, Qty: ${cart[item]}</b><br>`;
+        
+        i++;
+    }
+    popStr += '<button class="btn btn-danger" id="clearCart">Clear Cart</button>';
+    popStr += "  </div>";
+    
+    return popStr;
+}
+
+
+  
+  
+  
+});
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+</html>

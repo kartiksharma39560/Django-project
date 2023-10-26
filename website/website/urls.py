@@ -19,6 +19,7 @@ from django.urls import path
 from home.views import *
 from cart.views import *
 from buynow.views import *
+ 
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -28,4 +29,12 @@ urlpatterns = [
     path('cart/', cart, name="cart"),
     path('buynow/', buynow, name="buynow"),
     path('successful/', successful, name="successful"),
+    path('productcard/', productcard, name="productcard"),
+    path('updateItem/', updateItem, name="updateItem"),
+    path('productview/<int:myid>', productview, name="productview"),
+     path('signup/', signupage,name="signup"),
+    path('login/',login,name="login"),
+    path('logout/',Logoutpage,name="logout")
+#    path('add_to_cart/', home.add_to_cart, name='add_to_cart'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+ 
