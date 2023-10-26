@@ -11,15 +11,28 @@ from django.contrib import messages
 # Create your views here.
 
 
+from math import ceil  # Import the ceil function
+
 def productview(request, myid):
+    # Fetch all products
     products = Product.objects.all()
-    # Fetch the product using the id
+     
+    product = Product.objects.get(id=myid)  
+    
+ 
     n = len(products)
-    nSlides = n//4 + ceil((n/4) + (n//4))
-    product = Product.objects.filter(id=myid)
-    params = {'no_of_slides': nSlides, 'range': range( 1, nSlides), 'product': products, }
-                                                
-    return render(request, "home/productview.html",{'product': product[0]} )
+    nSlides = n // 4 + ceil((n / 4))
+    
+     
+    params = {
+        'no_of_slides': nSlides,
+        'range': range(1, nSlides),
+        'products': products,
+        'product': product,   #main image 
+    }
+    
+    return render(request, "home/productview.html", params)
+
 
 
 def productcard(request):
