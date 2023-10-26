@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Product
 from .models import Signup
+from .models import Content
 from django.http import HttpResponse, JsonResponse
 from math import ceil
 from django.shortcuts import render,HttpResponse,redirect
@@ -32,7 +33,9 @@ def productcard(request):
 
 def home(request):
     products = Product.objects.all()
+     
     n = len(products)
+   
     nSlides = n//4 + ceil((n/4) + (n//4))
     params = {'no_of_slides': nSlides, 'range': range(
         1, nSlides), 'product': products}
@@ -83,3 +86,9 @@ def login(request):
 def Logoutpage(request):
     logout(request)
     return redirect('login')
+
+def video(request):
+    contents = Content.objects.all()
+    print("contents")
+    params = {'content': contents}
+    return render(request, "home/homepage.html", params)

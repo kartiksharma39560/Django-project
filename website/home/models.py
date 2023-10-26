@@ -24,4 +24,8 @@ class Signup(models.Model):
         return self.uname
 
 class Content(models.Model):
-     video=models.ImageField(upload_to="shop/images",default="")
+    name = models.CharField(max_length=50, default="")
+    image = models.ImageField(upload_to="shop/images", default="")
+
+    def __str__(self):
+        return self.name
